@@ -15,9 +15,13 @@ const Filter = ({ value, onChange }) => (
   </label>
 );
 
+Filter.defaultProps = {
+  onChange: () => null,
+};
+
 Filter.propTypes = {
   value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
 };
 
 export default Filter;

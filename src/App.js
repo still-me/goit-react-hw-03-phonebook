@@ -12,6 +12,23 @@ class App extends Component {
     filter: "",
   };
 
+  componentDidMount() {
+    const parsedContacts = JSON.parse(localStorage.getItem("contacts"));
+
+    if (parsedContacts) {
+      this.setState({ contacts: parsedContacts });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const prevContacts = prevState.contacts;
+    const nextContacts = this.state.contacts;
+
+    if (nextContacts !== prevContacts) {
+      localStorage.setItem("contacts", JSON.stringify(nextContacts));
+    }
+  }
+
   addContact = (name, number) => {
     const newContact = {
       id: shortid.generate(),
@@ -49,26 +66,10 @@ class App extends Component {
     }));
   };
 
-  componentDidMount() {
-    const parsedContacts = JSON.parse(localStorage.getItem("contacts"));
-
-    if (parsedContacts) {
-      this.setState({ contacts: parsedContacts });
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const prevContacts = prevState.contacts;
-    const nextContacts = this.state.contacts;
-
-    if (nextContacts !== prevContacts) {
-      localStorage.setItem("contacts", JSON.stringify(nextContacts));
-    }
-  }
-
   render() {
     const { filter } = this.state;
     const visibleContacts = this.getVisibleContacts();
+
     return (
       <div>
         <Section title="Phonebook">
